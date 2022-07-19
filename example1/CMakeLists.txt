@@ -30,3 +30,7 @@ if(MSVC)
 else()
         target_compile_options(helloWorld PUBLIC -Wall -Wextra -Werror -pedantic)
 endif()
+
+# To generate build files for a specific build system, use a predefined generator.
+# For ex: cmake .. -G "Visual Studio 10 2010"
+# The list of generators you could get from "cmake --help" output.

@@ -17,3 +17,9 @@ target_include_directories(
         PUBLIC
         ${CMAKE_CURRENT_BINARY_DIR}
 )
+
+if(MSVC)
+        target_compile_options(lib PUBLIC /W4 /WX)
+else()
+        target_compile_options(lib PUBLIC -Wall -Wextra -Werror -pedantic)
+endif()

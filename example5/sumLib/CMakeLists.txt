@@ -1,24 +1,28 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 
 project(SumLibrary VERSION 0.0.3)
 
 configure_file(
-        config.h.in 
+        config.h.in
         ${CMAKE_CURRENT_BINARY_DIR}/config.h
 )
 
 add_library(sumLib STATIC sumLib.cpp sumLib.h)
-set_target_properties(
-        sumLib PROPERTIES
-        CXX_STANDARD 14
-        CXX_STANDARD_REQUIRED ON
-)
+
+target_compile_features(sumLib PUBLIC cxx_std_17)
+set_target_properties(sumLib PROPERTIES CXX_STANDARD_REQUIRED ON)
+
 target_include_directories(
-        sumLib 
-        PRIVATE 
+        sumLib
+        PRIVATE
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+# ##############################################################################
+
+# Installs the lib.
+# You can use "cmake .. -DCMAKE_INSTALL_PREFIX=/path/where/to/install" when generating
+# and "cmake --build . --traget install" when building.
 install(TARGETS sumLib EXPORT sumLibTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
@@ -31,3 +35,11 @@ install(EXPORT sumLibTargets
         NAMESPACE SumLib::
         DESTINATION lib/cmake/SumLib
 )
+
+# ##############################################################################
+#
+if(MSVC)
+        target_compile_options(sumLib PUBLIC /W4 /WX)
+else()
+        target_compile_options(sumLib PUBLIC -Wall -Wextra -Werror -pedantic)
+endif()
