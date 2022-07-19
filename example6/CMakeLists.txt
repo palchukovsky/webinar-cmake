@@ -1,27 +1,24 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 
 project(example6 VERSION 0.0.6)
 
 configure_file(
-        config.h.in 
+        config.h.in
         ${CMAKE_CURRENT_BINARY_DIR}/config.h
 )
 
 add_executable(mainLib main.cpp)
-set_target_properties(
-        mainLib PROPERTIES
-        CXX_STANDARD 14
-        CXX_STANDARD_REQUIRED ON
-)
+target_compile_features(mainLib PUBLIC cxx_std_17)
+set_target_properties(mainLib PROPERTIES CXX_STANDARD_REQUIRED ON)
 target_include_directories(
-        mainLib 
-        PRIVATE 
+        mainLib
+        PRIVATE
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-set(CMAKE_MODULE_PATH 
-	 ${CMAKE_MODULE_PATH}
-	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+set(CMAKE_MODULE_PATH
+        ${CMAKE_MODULE_PATH}
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 find_package(sumLib MODULE REQUIRED)
 
